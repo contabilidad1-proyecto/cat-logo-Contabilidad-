@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Urban Kicks - catálogo interactivo de tenis">
+  <title>Urban Kicks | Tenis urbanos</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f5f5;
+      color: #171717;
+      line-height: 1.5;
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #111;
+      color: white;
+      box-shadow: 0 3px 15px rgba(0,0,0,.18);
+    }
+
+    .nav {
+      max-width: 1150px;
+      margin: auto;
+      min-height: 70px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      color: white;
+      text-decoration: none;
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: .5px;
+      white-space: nowrap;
+    }
+
+    .logo span {
+      color: #ff5a36;
+    }
+
+    nav {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    nav button {
+      border: 0;
+      background: transparent;
+      color: white;
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+
+    nav button:hover,
+    nav button.active {
+      background: #ff5a36;
+    }
+
+    .cart-btn {
+      border: 0;
+      background: white;
+      color: #111;
+      padding: 10px 14px;
+      border-radius: 9px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 22px;
+      height: 22px;
+      margin-left: 5px;
+      padding: 0 5px;
+      border-radius: 20px;
+      background: #ff5a36;
+      color: white;
+      font-size: .8rem;
+    }
+
+    section {
+      scroll-margin-top: 85px;
+    }
+
+    .hero {
+      min-height: 520px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 70px 20px;
+      color: white;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,90,54,.35), transparent 35%),
+        radial-gradient(circle at 80% 80%, rgba(255,255,255,.12), transparent 35%),
+        linear-gradient(135deg, #111 0%, #292929 55%, #111 100%);
+    }
+
+    .hero-content {
+      max-width: 850px;
+    }
+
+    .hero-kicker {
+      display: inline-block;
+      background: #ff5a36;
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      line-height: .95;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: auto;
+      color: #ddd;
+      font-size: 1.08rem;
+    }
+
+    .hero-actions {
+      margin-top: 28px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .primary, .secondary {
+      border: 0;
+      border-radius: 10px;
+      padding: 13px 20px;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .primary {
+      background: #ff5a36;
+      color: white;
+    }
+
+    .secondary {
+      background: white;
+      color: #111;
+    }
+
+    .primary:hover,
+    .secondary:hover,
+    .cart-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .container {
+      max-width: 1150px;
+      margin: auto;
+      padding: 70px 20px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 8px;
+    }
+
+    .section-title p {
+      color: #666;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .feature {
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,.07);
+      text-align: center;
+    }
+
+    .feature .icon {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+
+    .catalog-tools {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-bottom: 25px;
+      background: white;
+      padding: 15px;
+      border-radius: 14px;
+      box-shadow: 0 5px 18px rgba(0,0,0,.06);
+    }
+
+    .search {
+      flex: 1;
+      min-width: 220px;
+      padding: 12px 14px;
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      outline: none;
+    }
+
+    .search:focus {
+      border-color: #ff5a36;
+    }
+
+    .filters {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .filter {
+      border: 1px solid #ddd;
+      background: white;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-weight: 700;
+    }
+
+    .filter.active,
+    .filter:hover {
+      background: #111;
+      color: white;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .product {
+      background: white;
+      border-radius: 17px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,.07);
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0,0,0,.12);
+    }
+
+    .shoe-art {
+      min-height: 220px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      background: linear-gradient(135deg, #ececec, #d7d7d7);
+      overflow: hidden;
+    }
+
+    .shoe-art::after {
+      content: "";
+      position: absolute;
+      width: 190px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(0,0,0,.12);
+      bottom: 25px;
+      filter: blur(8px);
+    }
+
+    .shoe {
+      position: relative;
+      z-index: 2;
+      font-size: 6rem;
+      transform: rotate(-12deg);
+      filter: drop-shadow(7px 10px 5px rgba(0,0,0,.18));
+    }
+
+    .product-info {
+      padding: 18px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 800;
+      color: #ff5a36;
+      background: #fff0ec;
+      padding: 4px 8px;
+      border-radius: 999px;
+      margin-bottom: 7px;
+    }
+
+    .product h3 {
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+
+    .category {
+      color: #777;
+      font-size: .9rem;
+      margin-bottom: 12px;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .price {
+      font-size: 1.35rem;
+      font-weight: 900;
+    }
+
+    .add-btn {
+      border: 0;
+      background: #111;
+      color: white;
+      padding: 10px 12px;
+      border-radius: 9px;
+      font-weight: 800;
+    }
+
+    .add-btn:hover {
+      background: #ff5a36;
+    }
+
+    .about {
+      background: #111;
+      color: white;
+    }
+
+    .about .container {
+      text-align: center;
+      max-width: 850px;
+    }
+
+    .about p {
+      color: #ddd;
+      margin-bottom: 15px;
+    }
+
+    .contact-box {
+      background: white;
+      border-radius: 18px;
+      padding: 30px;
+      max-width: 700px;
+      margin: auto;
+      box-shadow: 0 8px 25px rgba(0,0,0,.07);
+    }
+
+    .contact-box form {
+      display: grid;
+      gap: 12px;
+    }
+
+    .contact-box input,
+    .contact-box textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      resize: vertical;
+    }
+
+    .contact-box textarea {
+      min-height: 120px;
+    }
+
+    footer {
+      background: #080808;
+      color: #aaa;
+      text-align: center;
+      padding: 25px 20px;
+    }
+
+    /* Carrito */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      z-index: 1998;
+    }
+
+    .overlay.show {
+      display: block;
+    }
+
+    .cart-panel {
+      position: fixed;
+      z-index: 1999;
+      top: 0;
+      right: -430px;
+      width: min(430px, 100%);
+      height: 100vh;
+      background: white;
+      transition: right .25s ease;
+      display: flex;
+      flex-direction: column;
+      box-shadow: -8px 0 30px rgba(0,0,0,.2);
+    }
+
+    .cart-panel.open {
+      right: 0;
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .close {
+      border: 0;
+      background: #eee;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+    }
+
+    .cart-items {
+      flex: 1;
+      overflow: auto;
+      padding: 18px;
+    }
+
+    .empty {
+      text-align: center;
+      color: #777;
+      padding: 50px 10px;
+    }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: 55px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding: 13px 0;
+    }
+
+    .cart-shoe {
+      width: 55px;
+      height: 55px;
+      display: grid;
+      place-items: center;
+      background: #eee;
+      border-radius: 10px;
+      font-size: 1.8rem;
+    }
+
+    .cart-item h4 {
+      font-size: .95rem;
+    }
+
+    .cart-item small {
+      color: #777;
+    }
+
+    .qty {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      margin-top: 5px;
+    }
+
+    .qty button {
+      border: 1px solid #ddd;
+      background: white;
+      width: 25px;
+      height: 25px;
+      border-radius: 5px;
+    }
+
+    .remove {
+      border: 0;
+      background: transparent;
+      color: #d33;
+      font-size: .8rem;
+      margin-top: 3px;
+    }
+
+    .cart-footer {
+      padding: 18px;
+      border-top: 1px solid #eee;
+    }
+
+    .total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.25rem;
+      font-weight: 900;
+      margin-bottom: 13px;
+    }
+
+    .checkout {
+      width: 100%;
+      border: 0;
+      background: #25d366;
+      color: white;
+      padding: 13px;
+      border-radius: 9px;
+      font-weight: 900;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      background: rgba(0,0,0,.65);
+      place-items: center;
+      padding: 20px;
+    }
+
+    .modal.show {
+      display: grid;
+    }
+
+    .modal-card {
+      width: min(520px, 100%);
+      background: white;
+      border-radius: 18px;
+      padding: 25px;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      border: 0;
+      background: #eee;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+    }
+
+    .modal-art {
+      text-align: center;
+      font-size: 7rem;
+      background: #eee;
+      border-radius: 15px;
+      margin-bottom: 18px;
+      padding: 15px;
+    }
+
+    .modal-card h3 {
+      font-size: 1.7rem;
+      margin-bottom: 7px;
+    }
+
+    .modal-card p {
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .size-select {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin: 10px 0 15px;
+    }
+
+    @media (max-width: 850px) {
+      .features,
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .features,
+      .products {
+        grid-template-columns: 1fr;
+      }
+
+      .nav {
+        padding: 10px;
+      }
+
+      nav {
+        width: 100%;
+        order: 3;
+      }
+
+      nav button {
+        font-size: .82rem;
+      }
+
+      .hero {
+        min-height: 470px;
+      }
+
+      .container {
+        padding: 50px 15px;
+      }
+
+      .catalog-tools {
+        align-items: stretch;
+      }
+
+      .filters {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="nav">
+      <a href="#inicio" class="logo">URBAN<span>KICKS</span></a>
+
+      <nav aria-label="Navegación principal">
+        <button data-scroll="inicio">Inicio</button>
+        <button data-scroll="catalogo">Catálogo</button>
+        <button data-scroll="nosotros">Nosotros</button>
+        <button data-scroll="contacto">Contacto</button>
+      </nav>
+
+      <button class="cart-btn" id="openCart">
+        🛒 Carrito <span class="badge" id="cartCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero" id="inicio">
+      <div class="hero-content">
+        <span class="hero-kicker">NUEVA COLECCIÓN 2026</span>
+        <h1>Tu estilo.<br>Tu movimiento.</h1>
+        <p>
+          Descubre tenis urbanos para todos los días.
+          Elige tu modelo favorito y agrégalo al carrito.
+        </p>
+
+        <div class="hero-actions">
+          <button class="primary" data-scroll="catalogo">Ver catálogo</button>
+          <button class="secondary" id="heroCart">Ver carrito</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" id="beneficios">
+      <div class="section-title">
+        <h2>¿Por qué Urban Kicks?</h2>
+        <p>Una experiencia de compra sencilla y rápida.</p>
+      </div>
+
+      <div class="features">
+        <article class="feature">
+          <div class="icon">👟</div>
+          <h3>Diseños urbanos</h3>
+          <p>Modelos modernos para combinar con tu estilo.</p>
+        </article>
+
+        <article class="feature">
+          <div class="icon">🚚</div>
+          <h3>Envíos</h3>
+          <p>Preparamos tu pedido para que llegue a donde estés.</p>
+        </article>
+
+        <article class="feature">
+          <div class="icon">💳</div>
+          <h3>Compra fácil</h3>
+          <p>Agrega productos al carrito y revisa tu total.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="container" id="catalogo">
+      <div class="section-title">
+        <h2>Catálogo</h2>
+        <p>Encuentra tus próximos tenis favoritos.</p>
+      </div>
+
+      <div class="catalog-tools">
+        <input
+          type="search"
+          id="search"
+          class="search"
+          placeholder="🔎 Buscar tenis..."
+          aria-label="Buscar tenis"
+        >
+
+        <div class="filters">
+          <button class="filter active" data-filter="todos">Todos</button>
+          <button class="filter" data-filter="running">Running</button>
+          <button class="filter" data-filter="casual">Casual</button>
+          <button class="filter" data-filter="skate">Skate</button>
+        </div>
+      </div>
+
+      <div class="products" id="products"></div>
+    </section>
+
+    <section class="about" id="nosotros">
+      <div class="container">
+        <div class="section-title">
+          <h2>Sobre Urban Kicks</h2>
+          <p>Más que tenis, una forma de expresar tu estilo.</p>
+        </div>
+
+        <p>
+          Urban Kicks es un catálogo interactivo de tenis pensado para
+          mostrar productos de manera sencilla, moderna y atractiva.
+        </p>
+        <p>
+          Explora los modelos, consulta sus detalles y arma tu carrito.
+        </p>
+      </div>
+    </section>
+
+    <section class="container" id="contacto">
+      <div class="section-title">
+        <h2>Contacto</h2>
+        <p>¿Tienes alguna pregunta? Escríbenos.</p>
+      </div>
+
+      <div class="contact-box">
+        <form id="contactForm">
+          <input type="text" id="name" placeholder="Tu nombre" required>
+          <input type="email" id="email" placeholder="Tu correo" required>
+          <textarea id="message" placeholder="Escribe tu mensaje..." required></textarea>
+          <button class="primary" type="submit">Enviar mensaje</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2026 Urban Kicks — Catálogo interactivo de tenis.</p>
+  </footer>
+
+  <div class="overlay" id="overlay"></div>
+
+  <aside class="cart-panel" id="cartPanel" aria-label="Carrito de compras">
+    <div class="cart-header">
+      <h2>🛒 Mi carrito</h2>
+      <button class="close" id="closeCart" aria-label="Cerrar carrito">✕</button>
+    </div>
+
+    <div class="cart-items" id="cartItems"></div>
+
+    <div class="cart-footer">
+      <div class="total">
+        <span>Total</span>
+        <span id="cartTotal">$0</span>
+      </div>
+      <button class="checkout" id="checkout">
+        Pedir por WhatsApp
+      </button>
+    </div>
+  </aside>
+
+  <div class="modal" id="productModal">
+    <div class="modal-card">
+      <button class="modal-close" id="closeModal">✕</button>
+      <div class="modal-art" id="modalArt">👟</div>
+      <h3 id="modalName">Tenis</h3>
+      <p id="modalDescription"></p>
+      <strong id="modalPrice"></strong>
+
+      <select class="size-select" id="modalSize">
+        <option value="">Selecciona una talla</option>
+        <option>22</option>
+        <option>23</option>
+        <option>24</option>
+        <option>25</option>
+        <option>26</option>
+        <option>27</option>
+        <option>28</option>
+        <option>29</option>
+      </select>
+
+      <button class="primary" id="modalAdd" style="width:100%;">
+        Agregar al carrito
+      </button>
+    </div>
+  </div>
+
+  <script>
+    /*
+      URBAN KICKS
+      Todo está dentro de este archivo.
+      No necesita instalar librerías.
+    */
+
+    const products = [
+      {
+        id: 1,
+        name: "Urban Runner X",
+        category: "running",
+        price: 1299,
+        emoji: "👟",
+        tag: "NUEVO",
+        description: "Tenis ligeros para correr y para tu día a día."
+      },
+      {
+        id: 2,
+        name: "Street Classic",
+        category: "casual",
+        price: 1099,
+        emoji: "👟",
+        tag: "POPULAR",
+        description: "Un modelo clásico que combina con cualquier outfit."
+      },
+      {
+        id: 3,
+        name: "Skate Pro",
+        category: "skate",
+        price: 1199,
+        emoji: "👟",
+        tag: "SKATE",
+        description: "Diseñados para mayor comodidad y resistencia."
+      },
+      {
+        id: 4,
+        name: "Speed Air",
+        category: "running",
+        price: 1499,
+        emoji: "👟",
+        tag: "NUEVO",
+        description: "Amortiguación y ligereza para tus entrenamientos."
+      },
+      {
+        id: 5,
+        name: "Daily White",
+        category: "casual",
+        price: 999,
+        emoji: "👟",
+        tag: "OFERTA",
+        description: "Tenis blancos minimalistas para todos los días."
+      },
+      {
+        id: 6,
+        name: "Street Flame",
+        category: "skate",
+        price: 1249,
+        emoji: "👟",
+        tag: "URBAN",
+        description: "Estilo urbano con una construcción cómoda."
+      }
+    ];
+
+    let cart = [];
+    let currentFilter = "todos";
+    let currentProduct = null;
+
+    const productsContainer = document.getElementById("products");
+    const searchInput = document.getElementById("search");
+    const cartPanel = document.getElementById("cartPanel");
+    const overlay = document.getElementById("overlay");
+    const cartItems = document.getElementById("cartItems");
+    const cartCount = document.getElementById("cartCount");
+    const cartTotal = document.getElementById("cartTotal");
+    const productModal = document.getElementById("productModal");
+
+    function money(value) {
+      return "$" + value.toLocaleString("es-MX") + " MXN";
+    }
+
+    function categoryName(category) {
+      const names = {
+        running: "Running",
+        casual: "Casual",
+        skate: "Skate"
+      };
+      return names[category] || category;
+    }
+
+    function renderProducts() {
+      const search = searchInput.value.toLowerCase().trim();
+
+      const filtered = products.filter(product => {
+        const matchesFilter =
+          currentFilter === "todos" || product.category === currentFilter;
+
+        const matchesSearch =
+          product.name.toLowerCase().includes(search) ||
+          categoryName(product.category).toLowerCase().includes(search);
+
+        return matchesFilter && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        productsContainer.innerHTML = `
+          <div style="grid-column:1/-1;text-align:center;padding:50px;background:white;border-radius:15px;">
+            <h3>No encontramos ese modelo 😕</h3>
+            <p>Prueba con otra búsqueda o categoría.</p>
+          </div>
+        `;
+        return;
+      }
+
+      productsContainer.innerHTML = filtered.map(product => `
+        <article class="product">
+          <div class="shoe-art">
+            <div class="shoe">${product.emoji}</div>
+          </div>
+
+          <div class="product-info">
+            <span class="tag">${product.tag}</span>
+            <h3>${product.name}</h3>
+            <p class="category">${categoryName(product.category)}</p>
+
+            <div class="price-row">
+              <span class="price">${money(product.price)}</span>
+              <button class="add-btn" data-add="${product.id}">
+                + Carrito
+              </button>
+            </div>
+
+            <button
+              style="margin-top:10px;border:0;background:transparent;text-decoration:underline;"
+              data-details="${product.id}"
+            >
+              Ver detalles
+            </button>
+          </div>
+        </article>
+      `).join("");
+
+      document.querySelectorAll("[data-add]").forEach(button => {
+        button.addEventListener("click", () => {
+          addToCart(Number(button.dataset.add));
+        });
+      });
+
+      document.querySelectorAll("[data-details]").forEach(button => {
+        button.addEventListener("click", () => {
+          openProduct(Number(button.dataset.details));
+        });
+      });
+    }
+
+    function addToCart(id, size = "Única") {
+      const product = products.find(p => p.id === id);
+      if (!product) return;
+
+      const existing = cart.find(
+        item => item.id === id && item.size === size
+      );
+
+      if (existing) {
+        existing.quantity++;
+      } else {
+        cart.push({
+          ...product,
+          size,
+          quantity: 1
+        });
+      }
+
+      updateCart();
+      openCart();
+    }
+
+    function updateCart() {
+      const totalItems = cart.reduce(
+        (sum, item) => sum + item.quantity,
+        0
+      );
+
+      const total = cart.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
+
+      cartCount.textContent = totalItems;
+      cartTotal.textContent = money(total);
+
+      if (cart.length === 0) {
+        cartItems.innerHTML = `
+          <div class="empty">
+            <div style="font-size:3rem;">🛒</div>
+            <h3>Tu carrito está vacío</h3>
+            <p>Agrega unos tenis para comenzar.</p>
+          </div>
+        `;
+        return;
+      }
+
+      cartItems.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <div class="cart-shoe">${item.emoji}</div>
+
+          <div>
+            <h4>${item.name}</h4>
+            <small>${money(item.price)} · Talla ${item.size}</small>
+
+            <div class="qty">
+              <button data-minus="${item.id}" data-size="${item.size}">−</button>
+              <strong>${item.quantity}</strong>
+              <button data-plus="${item.id}" data-size="${item.size}">+</button>
+            </div>
+
+            <button
+              class="remove"
+              data-remove="${item.id}"
+              data-size="${item.size}"
+            >
+              Eliminar
+            </button>
+          </div>
+
+          <strong>${money(item.price * item.quantity)}</strong>
+        </div>
+      `).join("");
+
+      document.querySelectorAll("[data-minus]").forEach(button => {
+        button.addEventListener("click", () => {
+          changeQuantity(
+            Number(button.dataset.minus),
+            button.dataset.size,
+            -1
+          );
+        });
+      });
+
+      document.querySelectorAll("[data-plus]").forEach(button => {
+        button.addEventListener("click", () => {
+          changeQuantity(
+            Number(button.dataset.plus),
+            button.dataset.size,
+            1
+          );
+        });
+      });
+
+      document.querySelectorAll("[data-remove]").forEach(button => {
+        button.addEventListener("click", () => {
+          cart = cart.filter(item =>
+            !(item.id === Number(button.dataset.remove) &&
+              item.size === button.dataset.size)
+          );
+          updateCart();
+        });
+      });
+    }
+
+    function changeQuantity(id, size, amount) {
+      const item = cart.find(
+        item => item.id === id && item.size === size
+      );
+
+      if (!item) return;
+
+      item.quantity += amount;
+
+      if (item.quantity <= 0) {
+        cart = cart.filter(
+          product => !(product.id === id && product.size === size)
+        );
+      }
+
+      updateCart();
+    }
+
+    function openCart() {
+      cartPanel.classList.add("open");
+      overlay.classList.add("show");
+    }
+
+    function closeCart() {
+      cartPanel.classList.remove("open");
+      overlay.classList.remove("show");
+    }
+
+    function openProduct(id) {
+      currentProduct = products.find(product => product.id === id);
+      if (!currentProduct) return;
+
+      document.getElementById("modalArt").textContent = currentProduct.emoji;
+      document.getElementById("modalName").textContent = currentProduct.name;
+      document.getElementById("modalDescription").textContent =
+        currentProduct.description;
+      document.getElementById("modalPrice").textContent =
+        money(currentProduct.price);
+
+      document.getElementById("modalSize").value = "";
+      productModal.classList.add("show");
+    }
+
+    function closeProduct() {
+      productModal.classList.remove("show");
+      currentProduct = null;
+    }
+
+    function scrollToSection(id) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    }
+
+    // Navegación: TODOS los botones funcionan.
+    document.querySelectorAll("[data-scroll]").forEach(button => {
+      button.addEventListener("click", () => {
+        scrollToSection(button.dataset.scroll);
+      });
+    });
+
+    // Filtros.
+    document.querySelectorAll(".filter").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".filter").forEach(btn =>
+          btn.classList.remove("active")
+        );
+
+        button.classList.add("active");
+        currentFilter = button.dataset.filter;
+        renderProducts();
+      });
+    });
+
+    searchInput.addEventListener("input", renderProducts);
+
+    document.getElementById("openCart").addEventListener("click", openCart);
+    document.getElementById("heroCart").addEventListener("click", openCart);
+    document.getElementById("closeCart").addEventListener("click", closeCart);
+    overlay.addEventListener("click", closeCart);
+
+    document.getElementById("closeModal").addEventListener("click", closeProduct);
+
+    productModal.addEventListener("click", event => {
+      if (event.target === productModal) {
+        closeProduct();
+      }
+    });
+
+    document.getElementById("modalAdd").addEventListener("click", () => {
+      if (!currentProduct) return;
+
+      const size = document.getElementById("modalSize").value;
+
+      if (!size) {
+        alert("Selecciona una talla antes de agregar el producto.");
+        return;
+      }
+
+      addToCart(currentProduct.id, size);
+      closeProduct();
+    });
+
+    document.getElementById("checkout").addEventListener("click", () => {
+      if (cart.length === 0) {
+        alert("Tu carrito está vacío.");
+        return;
+      }
+
+      let message = "Hola, Urban Kicks. Quiero hacer este pedido:%0A%0A";
+
+      cart.forEach(item => {
+        message +=
+          `• ${item.name} | Talla ${item.size} | Cantidad: ${item.quantity} | ${money(item.price * item.quantity)}%0A`;
+      });
+
+      const total = cart.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
+
+      message += `%0ATotal: ${money(total)}`;
+
+      /*
+        CAMBIA ESTE NÚMERO POR EL WHATSAPP DEL NEGOCIO.
+        Formato: código de país + número, sin + ni espacios.
+        Ejemplo México: 521XXXXXXXXXX
+      */
+      const phone = "5210000000000";
+
+      window.open(
+        `https://wa.me/${phone}?text=${message}`,
+        "_blank"
+      );
+    });
+
+    document.getElementById("contactForm").addEventListener("submit", event => {
+      event.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+
+      alert(
+        `¡Gracias, ${name}! Tu mensaje fue recibido.`
+      );
+
+      event.target.reset();
+    });
+
+    // Carga inicial.
+    renderProducts();
+    updateCart();
+  </script>
+
+</body>
+</html>
